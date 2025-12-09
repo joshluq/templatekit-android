@@ -1,0 +1,6 @@
+{
+  "library_name": "Draftkit",
+  "repo_name": "{{ cookiecutter.library_name | lower | replace(' ', '-') }}",
+  "package_name": "es.joshluq.draftkit",
+  "description": "Librería de componentes UI estándar"
+}

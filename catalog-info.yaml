@@ -1,0 +1,11 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: templatekit
+  description: A template for creating Android applications
+  annotations:
+    github.com/project-slug: joshluq/templatekit
+spec:
+  type: library
+  lifecycle: experimental
+  owner: user:guest
