@@ -1,11 +1,67 @@
-apiVersion: backstage.io/v1alpha1
-kind: Component
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
 metadata:
-  name: templatekit
-  description: A template for creating Android applications
-  annotations:
-    github.com/project-slug: joshluq/templatekit
+  name: android-library-template
+  title: Android Library Template (Consumer-Driven)
+  description: Scaffold a new Android library project with Consumer-Driven pattern (Scaffolder Native)
 spec:
-  type: library
-  lifecycle: experimental
   owner: user:guest
+  type: service
+
+  parameters:
+    - title: Library Configuration
+      required:
+        - library_name
+        - package_name
+        - repoUrl
+      properties:
+        library_name:
+          title: Library Name
+          type: string
+          description: Simple name for the library (e.g., Draftkit)
+          default: MyLibrary
+        package_name:
+          title: Package Name
+          type: string
+          description: Java package (e.g., es.joshluq.encryptionkit)
+          default: com.example.mylib
+        description:
+          title: Description
+          type: string
+          description: Brief description of the library
+          default: A reusable Android library component
+        repoUrl:
+          title: Repository URL
+          type: string
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+
+  steps:
+    - id: fetch-base
+      name: Fetch Base
+      action: fetch:cookiecutter
+      input:
+        url: ./skeleton
+        targetPath: ./
+        values:
+          library_name: ${{ parameters.library_name }}
+          package_name: ${{ parameters.package_name }}
+          package_path: ${{ parameters.package_name | replace('.', '/') }}
+          repo_name: ${{ parameters.library_name | lower | replace(' ', '-') }}-android
+          description: ${{ parameters.description }}
+          repoUrl: ${{ parameters.repoUrl }}
+
+    - id: publish
+      name: Publish
+      action: publish:github
+      input:
+        description: ${{ parameters.description }}
+        repoUrl: ${{ parameters.repoUrl }}
+        sourcePath: ${{ steps['fetch-base'].output.dir }}
+
+  output:
+    links:
+      - title: Repository
+        url: '${{ steps.publish.output.remoteUrl }}'

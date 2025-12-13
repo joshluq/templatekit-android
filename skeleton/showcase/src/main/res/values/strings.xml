@@ -1,0 +1,3 @@
+<resources>
+    <string name="app_name">{{ cookiecutter.library_name }}</string>
+</resources>

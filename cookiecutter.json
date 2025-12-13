@@ -1,0 +1,7 @@
+{
+    "library_name": "MyLibrary",
+    "package_name": "com.example.mylib",
+    "package_path": "com/example/mylib",
+    "repo_name": "{{ cookiecutter.library_name | lower | replace(' ', '-') }}-android",
+    "description": "A reusable Android library component"
+}
