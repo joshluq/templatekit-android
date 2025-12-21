@@ -36,7 +36,7 @@ project(":library").name = "{{ cookiecutter.library_name | lower | replace(' ', 
 
 fun loadProjectConfig(projectDir: File): java.util.Properties {
     val properties = java.util.Properties()
-    val propertiesFile = File(projectDir, "project-config.properties")
+    val propertiesFile = File(projectDir, "config/project-config.properties")
     if (propertiesFile.exists()) {
         propertiesFile.inputStream().use { properties.load(it) }
     }
