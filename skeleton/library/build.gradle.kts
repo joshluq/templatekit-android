@@ -3,12 +3,11 @@ plugins {
     alias(libs.plugins.pluginkit.android.hilt)
     alias(libs.plugins.pluginkit.quality)
     alias(libs.plugins.pluginkit.android.testing)
+    alias(libs.plugins.pluginkit.android.publishing)
 }
 
-group = "{{ cookiecutter.package_name }}"
-
-val projectConfig = loadProjectConfig(rootProject.projectDir)
-version = projectConfig.getProperty("libraryVersion", "1.0.0")
+group = providers.gradleProperty("groupId").get()
+version = providers.gradleProperty("libraryVersion").get()
 
 android {
     namespace = "{{ cookiecutter.package_name }}"
@@ -16,4 +15,34 @@ android {
 
 dependencies {
 
+}
+
+pluginkitQuality {
+    sonarHost = "https://sonarcloud.io"
+    sonarProjectKey = "joshluq_{{ cookiecutter.repo_name }}"
+    koverExclusions = listOf(
+        "**.showcase.*",
+        "**.di.*",
+        "**.*_di_*",
+        "**.BuildConfig",
+        "**.R",
+        "**.R$*",
+        "**.Dagger*",
+        "**.*_Factory",
+        "**.*_Factory*",
+        "**.*_MembersInjector",
+        "**.*_HiltModules*",
+        "**.Hilt_*",
+        "**.*_Provide*Factory*"
+    )
+}
+
+androidPublishing {
+    repoName = "GitHubPackages"
+    repoUrl = "${providers.gradleProperty("repositoryUrl").get()}/${providers.gradleProperty("artifactId").get()}-android"
+    repoUser = System.getenv("GITHUB_ACTOR")
+    repoPassword = System.getenv("GITHUB_TOKEN")
+    version = "${project.version}${project.findProperty("versionType")}"
+    groupId = project.group.toString()
+    artifactId = providers.gradleProperty("artifactId").get()
 }
