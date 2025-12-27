@@ -37,8 +37,10 @@ jobs:
 
       - name: Ejecutar Fastlane Publish Snapshot
         env:
+          {% raw %}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_ACTOR: ${{ github.actor }}
+          {% endraw %}
         run: |
           chmod +x gradlew
           bundle exec fastlane publish_snapshot
