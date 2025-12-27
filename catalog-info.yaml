@@ -60,6 +60,7 @@ spec:
         description: ${{ parameters.description }}
         repoUrl: ${{ parameters.repoUrl }}
         sourcePath: ${{ steps['fetch-base'].output.dir }}
+        gitCommitMessage: "Initial commit from Templatekit [skip ci]"
 
   output:
     links:
