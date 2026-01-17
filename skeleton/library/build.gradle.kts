@@ -1,3 +1,5 @@
+import com.android.build.api.dsl.LibraryExtension
+
 plugins {
     alias(libs.plugins.pluginkit.android.library)
     alias(libs.plugins.pluginkit.android.hilt)
@@ -9,7 +11,7 @@ plugins {
 group = providers.gradleProperty("groupId").get()
 version = providers.gradleProperty("libraryVersion").get()
 
-android {
+configure<LibraryExtension> {
     namespace = "{{ cookiecutter.package_name }}"
 }
 
